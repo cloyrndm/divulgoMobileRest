@@ -23,6 +23,7 @@ public class NoteController {
     // Get All Notes
     @GetMapping("/notes")
     public List<Note> getAllNotes() {
+        System.out.println("I GOT INSIDE THE GET ALL NOTES REPO");
         return noteRepository.findAll();
     }
 
