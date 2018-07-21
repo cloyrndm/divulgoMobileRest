@@ -1,11 +1,13 @@
 package com.example.demo.Property;
 
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Created by Cloie Andrea on 16/07/2018.
+ * Created by Cloie Andrea on 21/07/2018.
  */
-@ConfigurationProperties(prefix = "file")
+
+@ConfigurationProperties()
 public class FileStorageProperties {
     private String uploadDir;
 
