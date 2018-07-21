@@ -29,7 +29,7 @@ public class UserController {
     }
 
     // Create a new User
-    @CrossOrigin(origins = {"http://192.168.1.4","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.8","file://"})
     @PostMapping("/users")
     public User createUser(@Valid @RequestBody User user) {
         System.out.println("I GOT INSIDE THE CREATE USER");

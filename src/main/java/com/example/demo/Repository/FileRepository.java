@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface FileRepository extends JpaRepository<FileModel,String> {
+public interface FileRepository extends JpaRepository<FileModel,Long> {
 
 }
