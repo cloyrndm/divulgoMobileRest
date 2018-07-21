@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Entity.FileModel;
 import com.example.demo.Exception.FileStorageException;
+import com.example.demo.Exception.MyFileNotFoundException;
 import com.example.demo.Property.FileStorageProperties;
 import com.example.demo.Repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,10 +67,10 @@ public class FileStorageService {
             if(resource.exists()) {
                 return resource;
             } else {
-                throw new MyFileNotFoundException("File not found " + fileName);
+                return null;
             }
         } catch (MalformedURLException ex) {
-            throw new MyFileNotFoundException("File not found " + fileName, ex);
+            return null;
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.demo.Property;
 
-//import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
