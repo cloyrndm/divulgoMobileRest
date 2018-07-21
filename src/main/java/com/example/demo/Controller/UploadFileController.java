@@ -31,31 +31,42 @@
 //
 //    @PostMapping("/save")
 //    public String save(@ModelAttribute("document") FileModel document,
-//                       @RequestParam("file") MultipartFile file) {
-//        SessionFactory sessionfactory;
-//        sessionfactory = new Configuration().configure()
-//                .buildSessionFactory();
-//        System.out.println("Name:" + document.getFileName());
-////        System.out.println("Desc:" + document.getDescription());
-////        System.out.println("File:" + file.getName());
-////        System.out.println("ContentType:" + file.getContentType());
-//
-//        try {
-//            Blob blob = Hibernate.getLobCreator(sessionfactory.getCurrentSession()).createBlob(file.getInputStream());
-//
-//            document.setFileName(file.getOriginalFilename());
-//            document.setFileType(file.getContentType());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            documentDao.save(document);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return "redirect:/index.html";
-//    }
+////                       @RequestParam("file") MultipartFile file) {
+////        SessionFactory sessionfactory;
+////        sessionfactory = new Configuration().configure()
+////                .buildSessionFactory();
+////        System.out.println("Name:" + document.getFileName());
+//////        System.out.println("Desc:" + document.getDescription());
+//////        System.out.println("File:" + file.getName());
+//////        System.out.println("ContentType:" + file.getContentType());
+////
+////        try {
+////            Blob blob = Hibernate.getLobCreator(sessionfactory.getCurrentSession()).createBlob(file.getInputStream());
+////
+////            document.setFileName(file.getOriginalFilename());
+////            document.setFileType(file.getContentType());
+////        } catch (IOException e) {
+////            e.printStackTrace();
+////        }
+////
+////        try {
+////            documentDao.save(document);
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        }
+////
+////        return "redirect:/index.html";
+////    }
+////       @PostMapping
+////    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+////        Account account = accountRepository.findByUsername(username);
+////        if(account != null) {
+////            return new User(account.getUsername(), account.getPassword(), true, true, true, true,
+////                    AuthorityUtils.createAuthorityList("USER"));
+////        } else {
+////            throw new UsernameNotFoundException("could not find the user '"
+////                    + username + "'");
+////        }
+////    }
 //
 //}
