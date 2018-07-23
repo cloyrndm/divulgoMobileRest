@@ -2,7 +2,6 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
-import com.example.demo.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +13,7 @@ import java.util.List;
  */
 
 @RestController
-@CrossOrigin(maxAge = 3600)
+//@CrossOrigin(maxAge = 3600)
 @RequestMapping("/apitwo")
 @ResponseBody
 public class UserController {
@@ -29,19 +28,25 @@ public class UserController {
     }
 
     // Create a new User
-    @CrossOrigin(origins = {"http://192.168.1.8","file://"})
+//    @CrossOrigin(origins = {"http://192.168.1.8","file://"})
     @PostMapping("/users")
     public User createUser(@Valid @RequestBody User user) {
         System.out.println("I GOT INSIDE THE CREATE USER");
         return userRepository.save(user);
     }
+//
+//    @GetMapping("/login")
+//    public User login(@Valid @RequestBody User user){
+//        System.out.println("I GOT IN THE LOGIN");
+//
+//    }
 
     // Get a Single User
-    @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable(value = "id") Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-    }
+//    @GetMapping("/users/{id}")
+//    public User getUserById(@PathVariable(value = "id") Long userId) {
+//        return userRepository.findById(userId)
+//                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+//    }
 
 //    public User logIn(User user) {
 //        user.set

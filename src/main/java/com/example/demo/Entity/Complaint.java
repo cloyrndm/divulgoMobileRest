@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.sql.Blob;
 
 /**
  * Created by Cloie Andrea on 15/07/2018.
@@ -29,6 +30,9 @@ public class Complaint implements Serializable {
 
     @NotBlank
     private String user_location;
+
+    @Lob
+    private Blob content;
 
 
 
@@ -64,5 +68,11 @@ public class Complaint implements Serializable {
         this.user_location = user_location;
     }
 
+    public Blob getContent() {
+        return content;
+    }
 
+    public void setContent(Blob content) {
+        this.content = content;
+    }
 }

@@ -3,6 +3,7 @@ package com.example.demo.Repository;
 
 import com.example.demo.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,4 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
     public User findByUsername(String username);
+    public User findUserByEmail(String email);
+
+//    @Query("SELECT user FROM User user where t.title = ?1 AND t.description = ?2")
+//    public User findByUsernameAndPassword(String username, String password);
 }
