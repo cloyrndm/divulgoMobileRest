@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 @RestController
-//@CrossOrigin(maxAge = 3600)
+@CrossOrigin(maxAge = 3600)
 @RequestMapping("/apitwo")
 @ResponseBody
 public class UserController {
@@ -28,12 +28,40 @@ public class UserController {
     }
 
     // Create a new User
-//    @CrossOrigin(origins = {"http://192.168.1.8","file://"})
+    // @CrossOrigin(origins = {"http://172.17.1.237","file://"})
+    //testing purposes only
+    @CrossOrigin(origins = {"http://localhost:8100","file://"})
     @PostMapping("/users")
     public User createUser(@Valid @RequestBody User user) {
         System.out.println("I GOT INSIDE THE CREATE USER");
         return userRepository.save(user);
     }
+
+//    @CrossOrigin(origins = {"http://172.17.1.237","file://"})
+    //testing purposes only
+    @CrossOrigin(origins = {"http://localhost:8100","file://"})
+    @RequestMapping("/login")
+    public User login(@Valid @RequestBody User user){
+        System.out.println("I GOT INSIDE THE LOGIN");
+
+        user = userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword());
+        if(userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword()) == null) {
+            return null;
+        }
+        return user;
+    }
+
+
+//    @CrossOrigin(origins = {"http://localhost:8100"})
+//    @GetMapping("/login")
+//    public User login(@Valid @RequestBody User user){
+//        System.out.println("I GOT INSIDE THE GET LOGIN");
+//        user = userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword());
+//        if(userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword()) == null) {
+//            return null;
+//        }
+//        return user;
+//    }
 //
 //    @GetMapping("/login")
 //    public User login(@Valid @RequestBody User user){

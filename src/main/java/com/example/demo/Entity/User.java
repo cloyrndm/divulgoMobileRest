@@ -13,26 +13,30 @@ import javax.validation.constraints.NotBlank;
 @Table(name="users")
 @EntityListeners(AuditingEntityListener.class)
 //@JsonIgnoreProperties(value={"createdAt","updatedAt"},allowGetters=true)
-public class User {
+public class User  {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @NotBlank
+
     private String first_name;
 
-    @NotBlank
+
     private String last_name;
 
-    @NotBlank
+
     private String email;
 
     @NotBlank
+    @Column(unique = true)
     private String username;
 
     @NotBlank
     private String password;
+
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled;
 
     public String getEmail() {
         return email;
@@ -81,4 +85,29 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+//    public void AccountAvailable() {
+//        return "account found";
+//    }
+//    public String NotAccountAvailable() {
+//        return "account not found";
+//    }
+//
+//
+//    public boolean isAccountNonLocked() {
+//        // we never lock accounts
+//        return true;
+//    }
+//
+//
+//    public boolean isCredentialsNonExpired() {
+//        // credentials never expire
+//        return true;
+//    }
+//
+//
+//    public boolean isEnabled() {
+//        return enabled;
+//    }
 }

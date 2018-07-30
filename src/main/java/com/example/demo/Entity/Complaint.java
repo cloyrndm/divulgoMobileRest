@@ -22,18 +22,14 @@ public class Complaint implements Serializable {
     @GeneratedValue
     private Long complaint_id;
 
-
-    private Long user_id;
+@Column(name="user_id")
+    private Long userId;
 
     @NotBlank
     private String user_complaint;
 
     @NotBlank
     private String user_location;
-
-    @Lob
-    private Blob content;
-
 
 
     public Long getComplaint_id() {
@@ -42,14 +38,6 @@ public class Complaint implements Serializable {
 
     public void setComplaint_id(Long complaint_id) {
         this.complaint_id = complaint_id;
-    }
-
-    public Long getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
     }
 
     public String getUser_complaint() {
@@ -68,11 +56,18 @@ public class Complaint implements Serializable {
         this.user_location = user_location;
     }
 
-    public Blob getContent() {
-        return content;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setContent(Blob content) {
-        this.content = content;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
+//    public byte[] getContent() {
+//        return content;
+//    }
+//
+//    public void setContent(byte[] content) {
+//        this.content = content;
+//    }
 }
