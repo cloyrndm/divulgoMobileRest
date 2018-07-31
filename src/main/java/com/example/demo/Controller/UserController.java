@@ -51,7 +51,6 @@ public class UserController {
         return user;
     }
 
-
 //    @CrossOrigin(origins = {"http://localhost:8100"})
 //    @GetMapping("/login")
 //    public User login(@Valid @RequestBody User user){
