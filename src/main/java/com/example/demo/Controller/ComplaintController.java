@@ -39,6 +39,9 @@ public class ComplaintController {
                                    RedirectAttributes redirectAttributes
                                       ) {
 
+        Double lat = new Double("10.279802");
+        Double lng = new Double ("123.851613");
+
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
             return null;
@@ -54,6 +57,12 @@ public class ComplaintController {
             complaint.setFile_path(filepath);
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
+
+
+            //reverse geocoding
+           complaint.setUser_lat(lat);
+            complaint.setUser_long(lng);
+
             complaintRepository.save(complaint);
 
         } catch (IOException e) {

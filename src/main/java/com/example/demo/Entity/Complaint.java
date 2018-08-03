@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.sql.Blob;
 
 /**
  * Created by Cloie Andrea on 15/07/2018.
@@ -22,10 +20,14 @@ public class Complaint implements Serializable {
     @GeneratedValue
     private Long complaint_id;
 
-@Column(name="user_id")
+    @Column(name = "user_id")
     private Long userId;
 
     private String user_complaint;
+
+    private Double user_lat;
+
+    private Double user_long;
 
     private String user_location;
 
@@ -48,14 +50,6 @@ public class Complaint implements Serializable {
         this.user_complaint = user_complaint;
     }
 
-    public String getUser_location() {
-        return user_location;
-    }
-
-    public void setUser_location(String user_location) {
-        this.user_location = user_location;
-    }
-
     public Long getUserId() {
         return userId;
     }
@@ -71,4 +65,29 @@ public class Complaint implements Serializable {
     public void setFile_path(String file_path) {
         this.file_path = file_path;
     }
+
+    public Double getUser_lat() {
+        return user_lat;
+    }
+
+    public void setUser_lat(Double user_lat) {
+        this.user_lat = user_lat;
+    }
+
+    public Double getUser_long() {
+        return user_long;
+    }
+
+    public void setUser_long(Double user_long) {
+        this.user_long = user_long;
+    }
+
+    public String getUser_location() {
+        return user_location;
+    }
+
+    public void setUser_location(String user_location) {
+        this.user_location = user_location;
+    }
 }
+
