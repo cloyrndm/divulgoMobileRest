@@ -25,13 +25,10 @@ public class Complaint implements Serializable {
 @Column(name="user_id")
     private Long userId;
 
-    @NotBlank
     private String user_complaint;
 
-    @NotBlank
     private String user_location;
 
-    @NotBlank
     private String file_path;
 
 
