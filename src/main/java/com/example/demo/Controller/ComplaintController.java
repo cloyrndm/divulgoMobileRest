@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Entity.Complaint;
+import com.example.demo.Entity.User;
 import com.example.demo.Repository.ComplaintRepository;
 import java.io.File;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,32 +36,35 @@ public class ComplaintController {
     public static byte[] readFileToByteArray(File file) throws IOException {
         return null;
     }
-    
     @PostMapping("/upload") // //new annotation since 4.3
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+    public String singleFileUpload(@RequestPart Complaint complaint,@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes
+                                      ) {
 
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:uploadStatus";
+            return null;
         }
 
         try {
 
             // Get the file and save it somewhere
             byte[] bytes = file.getBytes();
+            String filepath = UPLOADED_FOLDER+file.getOriginalFilename();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
-
+            complaint.setFile_path(filepath);
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
+            complaintRepository.save(complaint);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return "redirect:/uploadStatus";
+        return null;
     }
+
 
 }
 
