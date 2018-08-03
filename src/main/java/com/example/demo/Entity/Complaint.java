@@ -31,6 +31,9 @@ public class Complaint implements Serializable {
     @NotBlank
     private String user_location;
 
+    @NotBlank
+    private String file_path;
+
 
     public Long getComplaint_id() {
         return complaint_id;
@@ -63,11 +66,12 @@ public class Complaint implements Serializable {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-//    public byte[] getContent() {
-//        return content;
-//    }
-//
-//    public void setContent(byte[] content) {
-//        this.content = content;
-//    }
+
+    public String getFile_path() {
+        return file_path;
+    }
+
+    public void setFile_path(String file_path) {
+        this.file_path = file_path;
+    }
 }

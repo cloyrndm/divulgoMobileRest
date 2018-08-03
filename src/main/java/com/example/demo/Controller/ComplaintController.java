@@ -1,31 +1,17 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Entity.Complaint;
-import com.example.demo.Entity.User;
 import com.example.demo.Repository.ComplaintRepository;
-import org.apache.catalina.connector.Request;
-import org.apache.commons.io.FileUtils;
-import org.apache.tomcat.jni.File;
-import org.hibernate.Hibernate;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import java.io.File;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
-import org.springframework.boot.web.servlet.server.Session;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.MediaType;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.sql.Blob;
-import java.util.List;
+import java.io.*;
+
+import java.nio.file.Paths;
+import javax.servlet.ServletContext;
 
 /**
  * Created by Cloie Andrea on 15/07/2018.
@@ -50,47 +36,73 @@ public class ComplaintController {
 //        return complaintRepository.save(complaint);
 //    }
 
-//    @PostMapping(value="/complaints")
-//    public Complaint createComplaint(@RequestParam(value ="file") MultipartFile fileone,@RequestBody @Valid Complaint complaint) {
+//    @RequesMapping(value = "/submitComplaints",consumes = {"multipart/form-data"},method = RequestMethod.POST)
+//    @ResponseBody
+//    public Complaint uploadFile(
+//            @RequestParam("uploadfile") MultipartFile uploadfile, @RequestBody @Valid Complaint complaint) {
 //        try {
-//            System.out.println("got inside the create complaint controller!");
-//            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-////            int size = fileone.getBytes();
-////            byte[] array = Files.readAllBytes((Path) fileone);
-//            byte[] arrayPic = new byte[(int) fileone.getSize()];
-////            Blob blob = Hibernate.getLobCreator(sessionFactory.getCurrentSession()).createBlob(arrayPic);
-////            complaint.setContent(blob);
-////            byte[] arraypictwo = fileone.getBytes();
-//
-//            return complaintRepository.save(complaint);
+//            System.out.println("GOT INSIDE THE SUBMIT COMPLAINTS");
+//            // Get the filename and build the local file path (be sure that the
+//            // application have write permissions on such directory)
+//            String filename = uploadfile.getOriginalFilename();
+//            String directory = "/var/divulgo/uploads";
+//            String filepath = Paths.get(directory, filename).toString();
+//            complaint.setFile_path(filepath);
+//            // Save the file locally
+//            BufferedOutputStream stream =
+//                    new BufferedOutputStream(new FileOutputStream(filepath));
+//            stream.write(uploadfile.getBytes());
+//            stream.close();
 //        }
-//        catch (RuntimeException e){
-//            System.out.println("ERROR");
-//            return null;
-//
+//        catch (Exception e) {
+//            System.out.println(e.getMessage());
+////            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //        }
-//    }
+//
+//        return complaintRepository.save(complaint);
+//    } // method uploadFile
 
-//    @PostMapping(value="/complaints")
-//    public Complaint createComplaint(@RequestParam(value ="content") MultipartFile fileone,@RequestBody @Valid Complaint complaint){
-//        byte[] arrayPic = new byte[(int) fileone.getSize()];
-//        fileone.getInputStream().read(arrayPic);
-//    }
+    @RequestMapping(value = "/uploadSingleFile", method = RequestMethod.POST)
+    public String uploadSingleFileHandler(@RequestParam("file") MultipartFile file, @RequestBody @Valid Complaint complaint) {
+        //file handling to upload it in the server path
+        String filename = file.getOriginalFilename();
+        String directory = "/var/divulgo/uploads";
+        String filepath = Paths.get(directory, filename).toString();
+//        complaint.setFile_path(filepath);
 
-    @PostMapping(value = "/complaints")
-    public Complaint createComplaint(@RequestParam(value = "file") MultipartFile fileone, @RequestBody @Valid Complaint complaint) throws Exception {
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+                stream.write(bytes);
+                stream.close();
+                return "You successfully uploaded " + filename + "!";
+            } catch (Exception e) {
+                return "You failed to upload " + filename + " => " + e.getMessage();
+            }
+        } else {
+            return "You failed to upload " + filename + " because the file was empty.";
+        }
 
-//        complaint.setContent(fileone.getBytes());
-        return complaintRepository.save(complaint);
     }
+
+//    @RequestMapping(value = "/complaints", method=RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+//    public Complaint createComplaint(@RequestParam(value = "file") MultipartFile fileone, HttpServletResponse response, @RequestBody @Valid Complaint complaint) throws Exception {
+////        ClassPathResource imgFile = new ClassPathResource("image/file");
+////        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+//////        complaint.setContentType(fileone.getBytes());
+////        StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
+//        return complaintRepository.save(complaint);
+//    }
 
     // Get Complaints
-    @GetMapping("/complaints/{user_id}")
-    public List<Complaint> getComplaintById(@PathVariable(value = "user_id") Long user_id) {
-
-            return complaintRepository.findByUserId(user_id);
-
-    }
+//    @GetMapping("/complaints/{user_id}")
+//    public List<Complaint> getComplaintById(@PathVariable(value = "user_id") Long user_id) {
+//
+//            return complaintRepository.findByUserId(user_id);
+//
+//    }
 
 //    // Get a Single User
 //    @GetMapping("/complaints/{user_id}")
