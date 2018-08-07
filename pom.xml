@@ -79,8 +79,19 @@
 			<artifactId>geocoder-java</artifactId>
 			<version>0.15</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.maps</groupId>
+			<artifactId>google-maps-services</artifactId>
+			<version>0.1.15</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.code.geocoder-java/geocoder-java -->
+		<dependency>
+			<groupId>com.google.code.geocoder-java</groupId>
+			<artifactId>geocoder-java</artifactId>
+			<version>0.15</version>
+		</dependency>
 
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>

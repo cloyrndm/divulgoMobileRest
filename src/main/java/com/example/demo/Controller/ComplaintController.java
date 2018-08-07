@@ -4,6 +4,14 @@ import com.example.demo.Entity.Complaint;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.ComplaintRepository;
 import java.io.File;
+
+import com.google.code.geocoder.Geocoder;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.GeocodingApiRequest;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
+import org.apache.catalina.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Cloie Andrea on 15/07/2018.
@@ -36,15 +45,34 @@ public class ComplaintController {
         return null;
     }
 
-    @CrossOrigin(origins = {"http://172.20.10.2:8100","file://"})
+/*    @CrossOrigin(origins = {"http://172.20.10.2:8100","file://"})*/
     @PostMapping("/upload") // //new annotation since 4.3
     public String singleFileUpload(@RequestPart Complaint complaint,@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes
+                                   RedirectAttributes redirectAttributes, Context context
                                       ) {
 //
+        System.out.println("HEYYY I GOT INSIDE LE UPLOAAD");
         Double lat = new Double("10.279802");
         Double lng = new Double ("123.851613");
+        complaint.setUser_lat(lat);
+        complaint.setUser_long(lng);
+        complaint.setUser_location("cebu");
 
+//        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+//        try {
+//            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+//            Address obj = addresses.get(0);
+//
+//            String add = obj.getAddressLine(0);
+//            add = add + "," + obj.getAdminArea();
+//            add = add + "," + obj.getCountryName();
+//
+//            return add;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//            return null;
+//        }
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
             return null;
