@@ -14,6 +14,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * Created by Cloie Andrea on 15/07/2018.
@@ -27,18 +28,20 @@ public class ComplaintController {
 
     @Autowired
     ComplaintRepository complaintRepository;
-
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "C://divulgo_uploads//";
+    private static String UPLOADED_FOLDER = "C://School//Ionic_Projects//divulgo//www//assets//divulgo_uploads//";
+//    private static String UPLOADED_FOLDER = "C://divulgo_uploads//";
 
     public static byte[] readFileToByteArray(File file) throws IOException {
         return null;
     }
+
+    @CrossOrigin(origins = {"http://172.20.10.2:8100","file://"})
     @PostMapping("/upload") // //new annotation since 4.3
     public String singleFileUpload(@RequestPart Complaint complaint,@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes
                                       ) {
-
+//
         Double lat = new Double("10.279802");
         Double lng = new Double ("123.851613");
 
@@ -51,7 +54,7 @@ public class ComplaintController {
 
             // Get the file and save it somewhere
             byte[] bytes = file.getBytes();
-            String filepath = UPLOADED_FOLDER+file.getOriginalFilename();
+            String filepath = "assets/divulgo_uploads/"+file.getOriginalFilename();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
             complaint.setFile_path(filepath);
@@ -70,6 +73,13 @@ public class ComplaintController {
         }
 
         return null;
+    }
+
+    // Get Complaints
+    @CrossOrigin(origins = {"http://172.20.10.2:8100","file://"})
+    @GetMapping("/complaints/{user_id}")
+    public List<Complaint> getComplaintById(@PathVariable(value = "user_id") Long user_id) {
+        return complaintRepository.findByUserId(user_id);
     }
 
 
