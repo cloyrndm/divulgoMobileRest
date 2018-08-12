@@ -29,7 +29,7 @@ public class Complaint implements Serializable {
 
     private Double user_long;
 
-    private String user_location;
+//    private String user_location;
 
     private String file_path;
 
@@ -82,12 +82,12 @@ public class Complaint implements Serializable {
         this.user_long = user_long;
     }
 
-    public String getUser_location() {
-        return user_location;
-    }
-
-    public void setUser_location(String user_location) {
-        this.user_location = user_location;
-    }
+//    public String getUser_location() {
+//        return user_location;
+//    }
+//
+//    public void setUser_location(String user_location) {
+//        this.user_location = user_location;
+//    }
 }
 

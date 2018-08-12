@@ -1,16 +1,14 @@
 package com.example.demo.Controller;
 
+import com.atlis.location.model.impl.Address;
+import com.atlis.location.model.impl.MapPoint;
+import com.atlis.location.nominatim.NominatimAPI;
 import com.example.demo.Entity.Complaint;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.ComplaintRepository;
 import java.io.File;
 
-import com.google.code.geocoder.Geocoder;
-import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
-import com.google.maps.GeocodingApiRequest;
-import com.google.maps.model.GeocodingResult;
-import com.google.maps.model.LatLng;
+
 import org.apache.catalina.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Locale;
+
 
 /**
  * Created by Cloie Andrea on 15/07/2018.
@@ -45,19 +43,22 @@ public class ComplaintController {
         return null;
     }
 
-/*    @CrossOrigin(origins = {"http://172.20.10.2:8100","file://"})*/
+    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
     @PostMapping("/upload") // //new annotation since 4.3
     public String singleFileUpload(@RequestPart Complaint complaint,@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes, Context context
                                       ) {
 //
         System.out.println("HEYYY I GOT INSIDE LE UPLOAAD");
-        Double lat = new Double("10.279802");
-        Double lng = new Double ("123.851613");
-        complaint.setUser_lat(lat);
-        complaint.setUser_long(lng);
-        complaint.setUser_location("cebu");
-
+//        Double lat = new Double("10.279802");
+//        Double lng = new Double ("123.851613");
+//        String endpointUrl = "https://nominatim.openstreetmap.org/";
+//        complaint.setUser_lat(lat);
+//        complaint.setUser_long(lng);
+//        complaint.setUser_location("cebu");
+//        MapPoint mapPoint = new MapPoint().buildMapPoint(lat, lng);
+//        Address address = NominatimAPI.with(endpointUrl).getAddressFromMapPoint(mapPoint);
+//        System.out.println("THIS IS TH EADDRE"+address.getCity());
 //        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
 //        try {
 //            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
@@ -91,8 +92,8 @@ public class ComplaintController {
 
 
             //reverse geocoding
-           complaint.setUser_lat(lat);
-            complaint.setUser_long(lng);
+//           complaint.setUser_lat(lat);
+//            complaint.setUser_long(lng);
 
             complaintRepository.save(complaint);
 
@@ -104,7 +105,7 @@ public class ComplaintController {
     }
 
     // Get Complaints
-    @CrossOrigin(origins = {"http://172.20.10.2:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
     @GetMapping("/complaints/{user_id}")
     public List<Complaint> getComplaintById(@PathVariable(value = "user_id") Long user_id) {
         return complaintRepository.findByUserId(user_id);
