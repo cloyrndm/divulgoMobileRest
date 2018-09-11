@@ -30,7 +30,7 @@ public class UserController {
     // Create a new User
     // @CrossOrigin(origins = {"http://172.17.1.237","file://"})
     //testing purposes only
-    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
+    @CrossOrigin(origins = {"http://172.20.10.8:8100","file://"})
     @PostMapping("/users")
     public User createUser(@Valid @RequestBody User user) {
         System.out.println("I GOT INSIDE THE CREATE USER");
@@ -39,7 +39,7 @@ public class UserController {
 
 //    @CrossOrigin(origins = {"http://172.17.1.237","file://"})
     //testing purposes only
-    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
+    @CrossOrigin(origins = {"http://172.20.10.8:8100","file://"})
     @RequestMapping("/login")
     public User login(@Valid @RequestBody User user){
         System.out.println("I GOT INSIDE THE LOGIN");
@@ -50,9 +50,6 @@ public class UserController {
         }
         return user;
     }
-
-
-
 
 //    @CrossOrigin(origins = {"http://localhost:8100"})
 //    @GetMapping("/login")

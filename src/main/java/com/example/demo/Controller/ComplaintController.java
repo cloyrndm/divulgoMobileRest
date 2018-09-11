@@ -11,10 +11,12 @@ import java.io.File;
 
 import org.apache.catalina.Context;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.*;
 
 import java.nio.file.Files;
@@ -43,37 +45,22 @@ public class ComplaintController {
         return null;
     }
 
-    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
-    @PostMapping("/upload") // //new annotation since 4.3
-    public String singleFileUpload(@RequestPart Complaint complaint,@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes, Context context
-                                      ) {
-//
+    @CrossOrigin(origins = {"http://172.20.10.8:8100","file://"})
+    @PostMapping(value="/upload") // //new annotation since 4.3
+    public String singleFileUpload(@RequestParam(name="ionicfile") MultipartFile file,
+                                   @RequestParam(name="user_id") Long user_id,
+                                   @RequestParam(name="user_complaint") String user_complaint,
+                                   @RequestParam(name="lat") Double lat,
+                                   @RequestParam(name="long") Double lng,
+                                   Complaint complaint,
+                                   RedirectAttributes redirectAttributes) {
+
         System.out.println("HEYYY I GOT INSIDE LE UPLOAAD");
-//        Double lat = new Double("10.279802");
-//        Double lng = new Double ("123.851613");
-//        String endpointUrl = "https://nominatim.openstreetmap.org/";
-//        complaint.setUser_lat(lat);
-//        complaint.setUser_long(lng);
-//        complaint.setUser_location("cebu");
-//        MapPoint mapPoint = new MapPoint().buildMapPoint(lat, lng);
-//        Address address = NominatimAPI.with(endpointUrl).getAddressFromMapPoint(mapPoint);
-//        System.out.println("THIS IS TH EADDRE"+address.getCity());
-//        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-//        try {
-//            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-//            Address obj = addresses.get(0);
-//
-//            String add = obj.getAddressLine(0);
-//            add = add + "," + obj.getAdminArea();
-//            add = add + "," + obj.getCountryName();
-//
-//            return add;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//            return null;
-//        }
+
+        complaint.setUserId(user_id);
+        complaint.setUser_complaint(user_complaint);
+        complaint.setUser_lat(lat);
+        complaint.setUser_long(lng);
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
             return null;
@@ -81,22 +68,20 @@ public class ComplaintController {
 
         try {
 
-            // Get the file and save it somewhere
             byte[] bytes = file.getBytes();
             String filepath = "assets/divulgo_uploads/"+file.getOriginalFilename();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
             complaint.setFile_path(filepath);
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
-
-
-            //reverse geocoding
-//           complaint.setUser_lat(lat);
-//            complaint.setUser_long(lng);
-
             complaintRepository.save(complaint);
-
+//            redirectAttributes.addFlashAttribute("message",
+//                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
+            System.out.println(complaint.getFile_path());
+            System.out.println(complaint.getComplaint_id());
+            System.out.println(complaint.getUser_complaint());
+            System.out.println(complaint.getUser_lat());
+            System.out.println(complaint.getUser_long());
+            System.out.println(complaint.getUserId());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,8 +89,64 @@ public class ComplaintController {
         return null;
     }
 
+//        @CrossOrigin(origins = {"http://172.20.10.13:8100","file://"})
+//    @PostMapping(value="/upload") // //new annotation since 4.3
+//    public String singleFileUpload(@RequestParam(name="imggg") MultipartFile file,@Valid @RequestBody Complaint complaint,
+//                                   RedirectAttributes redirectAttributes
+//    ) {
+////
+//        System.out.println("HEYYY I GOT INSIDE LE UPLOAAD");
+////        Double lat = new Double("10.279802");
+////        Double lng = new Double ("123.851613");
+////        String endpointUrl = "https://nominatim.openstreetmap.org/";
+////        complaint.setUser_lat(lat);
+////        complaint.setUser_long(lng);
+////        complaint.setUser_location("cebu");
+////        MapPoint mapPoint = new MapPoint().buildMapPoint(lat, lng);
+////        Address address = NominatimAPI.with(endpointUrl).getAddressFromMapPoint(mapPoint);
+////        System.out.printlnionic cordova("THIS IS TH EADDRE"+address.getCity());
+////        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+////        try {
+////            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+////            Address obj = addresses.get(0);
+////
+////            String add = obj.getAddressLine(0);
+////            add = add + "," + obj.getAdminArea();
+////            add = add + "," + obj.getCountryName();
+////
+////            return add;
+////        } catch (IOException e) {
+////            e.printStackTrace();
+////            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+////            return null;
+////        }
+//        if (file.isEmpty()) {
+//            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+//            return null;
+//        }
+//
+//        try {
+//            // Get the file and save it somewhere
+//            byte[] bytes = file.getBytes();
+//            String filepath = "assets/divulgo_uploads/"+file.getOriginalFilename();
+//            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+//            Files.write(path, bytes);
+//            complaint.setFile_path(filepath);
+//            redirectAttributes.addFlashAttribute("message",
+//                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
+//            //reverse geocoding
+////          complaint.setUser_lat(lat);
+////          complaint.setUser_long(lng);
+//            complaintRepository.save(complaint);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
+
     // Get Complaints
-    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.28:8100","file://"})
     @GetMapping("/complaints/{user_id}")
     public List<Complaint> getComplaintById(@PathVariable(value = "user_id") Long user_id) {
         return complaintRepository.findByUserId(user_id);
