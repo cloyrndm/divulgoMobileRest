@@ -45,7 +45,7 @@ public class ComplaintController {
         return null;
     }
 
-    @CrossOrigin(origins = {"http://172.20.10.8:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
     @PostMapping(value="/upload") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam(name="ionicfile") MultipartFile file,
                                    @RequestParam(name="user_id") Long user_id,
@@ -82,6 +82,7 @@ public class ComplaintController {
             System.out.println(complaint.getUser_lat());
             System.out.println(complaint.getUser_long());
             System.out.println(complaint.getUserId());
+            System.out.println("---------------------------------------------");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,9 +147,11 @@ public class ComplaintController {
 //    }
 
     // Get Complaints
-    @CrossOrigin(origins = {"http://192.168.1.28:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
     @GetMapping("/complaints/{user_id}")
     public List<Complaint> getComplaintById(@PathVariable(value = "user_id") Long user_id) {
+        System.out.println("Got complaint by Id");
+        System.out.println("---------------------------------------------");
         return complaintRepository.findByUserId(user_id);
     }
 
