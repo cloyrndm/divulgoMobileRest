@@ -54,7 +54,7 @@ public class ComplaintController {
                                    @RequestParam(name="long") Double lng,
                                    Complaint complaint,
                                    RedirectAttributes redirectAttributes) {
-
+//SUCCEFUL
         System.out.println("HEYYY I GOT INSIDE LE UPLOAAD");
 
         complaint.setUserId(user_id);
