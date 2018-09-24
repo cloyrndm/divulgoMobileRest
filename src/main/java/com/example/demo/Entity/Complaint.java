@@ -23,6 +23,10 @@ public class Complaint implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
+    private String date;
+
+    private String time;
+
     private String user_complaint;
 
     private Double user_lat;
@@ -33,6 +37,21 @@ public class Complaint implements Serializable {
 
     private String file_path;
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public Long getComplaint_id() {
         return complaint_id;

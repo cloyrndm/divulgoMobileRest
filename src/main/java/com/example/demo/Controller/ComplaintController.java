@@ -7,7 +7,8 @@ import com.example.demo.Entity.Complaint;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.ComplaintRepository;
 import java.io.File;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.catalina.Context;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +39,14 @@ public class ComplaintController {
     @Autowired
     ComplaintRepository complaintRepository;
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "C://School//Ionic_Projects//divulgo//www//assets//divulgo_uploads//";
-//    private static String UPLOADED_FOLDER = "C://divulgo_uploads//";
+
+    private static String UPLOADED_FOLDER = "C://School//Divulgo_Uploads//";
 
     public static byte[] readFileToByteArray(File file) throws IOException {
         return null;
     }
 
-    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.2:8100","file://"})
     @PostMapping(value="/upload") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam(name="ionicfile") MultipartFile file,
                                    @RequestParam(name="user_id") Long user_id,
@@ -54,10 +55,18 @@ public class ComplaintController {
                                    @RequestParam(name="long") Double lng,
                                    Complaint complaint,
                                    RedirectAttributes redirectAttributes) {
-//SUCCEFUL
-        System.out.println("HEYYY I GOT INSIDE LE UPLOAAD");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatter2 = new SimpleDateFormat("HH:mm:ss");
+//        SimpleDateFormat formatter2 = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date();
+        String dateee = formatter.format(date);
+        String time = formatter2.format(date);
+        System.out.println("-----------------FILE UPLOAD-----------------");
 
         complaint.setUserId(user_id);
+        complaint.setDate(dateee);
+        complaint.setTime(time);
         complaint.setUser_complaint(user_complaint);
         complaint.setUser_lat(lat);
         complaint.setUser_long(lng);
@@ -69,19 +78,21 @@ public class ComplaintController {
         try {
 
             byte[] bytes = file.getBytes();
-            String filepath = "assets/divulgo_uploads/"+file.getOriginalFilename();
+            String filepath = "C:/School/Divulgo_Uploads/"+file.getOriginalFilename();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
             complaint.setFile_path(filepath);
             complaintRepository.save(complaint);
 //            redirectAttributes.addFlashAttribute("message",
 //                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
-            System.out.println(complaint.getFile_path());
-            System.out.println(complaint.getComplaint_id());
-            System.out.println(complaint.getUser_complaint());
-            System.out.println(complaint.getUser_lat());
-            System.out.println(complaint.getUser_long());
-            System.out.println(complaint.getUserId());
+            System.out.println("File Path: "+complaint.getFile_path());
+            System.out.println("Complaint Id: "+complaint.getComplaint_id());
+            System.out.println("Date: "+complaint.getDate());
+            System.out.println("Time: "+complaint.getTime());
+            System.out.println("Complaint: "+complaint.getUser_complaint());
+            System.out.println("User Latitude: "+complaint.getUser_lat());
+            System.out.println("User Longitude: "+complaint.getUser_long());
+            System.out.println("User Id: "+complaint.getUserId());
             System.out.println("---------------------------------------------");
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,67 +101,12 @@ public class ComplaintController {
         return null;
     }
 
-//        @CrossOrigin(origins = {"http://172.20.10.13:8100","file://"})
-//    @PostMapping(value="/upload") // //new annotation since 4.3
-//    public String singleFileUpload(@RequestParam(name="imggg") MultipartFile file,@Valid @RequestBody Complaint complaint,
-//                                   RedirectAttributes redirectAttributes
-//    ) {
-////
-//        System.out.println("HEYYY I GOT INSIDE LE UPLOAAD");
-////        Double lat = new Double("10.279802");
-////        Double lng = new Double ("123.851613");
-////        String endpointUrl = "https://nominatim.openstreetmap.org/";
-////        complaint.setUser_lat(lat);
-////        complaint.setUser_long(lng);
-////        complaint.setUser_location("cebu");
-////        MapPoint mapPoint = new MapPoint().buildMapPoint(lat, lng);
-////        Address address = NominatimAPI.with(endpointUrl).getAddressFromMapPoint(mapPoint);
-////        System.out.printlnionic cordova("THIS IS TH EADDRE"+address.getCity());
-////        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-////        try {
-////            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-////            Address obj = addresses.get(0);
-////
-////            String add = obj.getAddressLine(0);
-////            add = add + "," + obj.getAdminArea();
-////            add = add + "," + obj.getCountryName();
-////
-////            return add;
-////        } catch (IOException e) {
-////            e.printStackTrace();
-////            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-////            return null;
-////        }
-//        if (file.isEmpty()) {
-//            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-//            return null;
-//        }
-//
-//        try {
-//            // Get the file and save it somewhere
-//            byte[] bytes = file.getBytes();
-//            String filepath = "assets/divulgo_uploads/"+file.getOriginalFilename();
-//            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-//            Files.write(path, bytes);
-//            complaint.setFile_path(filepath);
-//            redirectAttributes.addFlashAttribute("message",
-//                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
-//            //reverse geocoding
-////          complaint.setUser_lat(lat);
-////          complaint.setUser_long(lng);
-//            complaintRepository.save(complaint);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
-
     // Get Complaints
-    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.2:8100","file://"})
     @GetMapping("/complaints/{user_id}")
     public List<Complaint> getComplaintById(@PathVariable(value = "user_id") Long user_id) {
-        System.out.println("Got complaint by Id");
+        System.out.println("------------DISPLAYING COMPLAINT-------------");
+        System.out.println("RESULT: SUCCESSFULLY DISPLAYED");
         System.out.println("---------------------------------------------");
         return complaintRepository.findByUserId(user_id);
     }

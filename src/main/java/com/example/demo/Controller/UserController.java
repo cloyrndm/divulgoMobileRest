@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,20 +31,25 @@ public class UserController {
     // Create a new User
     // @CrossOrigin(origins = {"http://172.17.1.237","file://"})
     //testing purposes only
-    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.2:8100","file://"})
     @PostMapping("/users")
     public User createUser(@Valid @RequestBody User user) {
-        System.out.println("I GOT INSIDE THE CREATE USER");
+        System.out.println("---------------REGISTERING USER--------------");
+        System.out.println("User Id:"+user.getId());
+        System.out.println("First Name: "+user.getFirst_name());
+        System.out.println("Last Name: "+user.getLast_name());
+        System.out.println("Email: "+user.getEmail());
         System.out.println("---------------------------------------------");
         return userRepository.save(user);
     }
 
 //    @CrossOrigin(origins = {"http://172.17.1.237","file://"})
     //testing purposes only
-    @CrossOrigin(origins = {"http://192.168.1.4:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.2:8100","file://"})
     @RequestMapping("/login")
     public User login(@Valid @RequestBody User user){
-        System.out.println("I GOT INSIDE THE LOGIN");
+        System.out.println("----------------LOGGING IN-------------------");
+        System.out.println("SUCCESSFULLY LOGGED IN");
         System.out.println("---------------------------------------------");
 
         user = userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword());
@@ -52,6 +58,25 @@ public class UserController {
         }
         return user;
     }
+
+        @CrossOrigin(origins = {"http://172.20.10.8:8100","file://"})
+        @RequestMapping("/findEmail")
+        public User getUserById(@PathVariable @Valid @RequestBody User user) {
+            user = userRepository.findUserByEmail(user.getEmail());
+            if (userRepository.findUserByEmail(user.getEmail()) == null) {
+                return null;
+            }
+                return user;
+        }
+//
+//
+//    @CrossOrigin(origins = {"http://172.20.10.8:8100","file://"})
+//    @RequestMapping("/validation")
+//    public User RegistrationValidation(@Valid @RequestBody User user){
+//        //insert code
+//        return user;
+//    }
+
 
 //    @CrossOrigin(origins = {"http://localhost:8100"})
 //    @GetMapping("/login")

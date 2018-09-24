@@ -25,7 +25,7 @@ public class User  {
 
     private String last_name;
 
-
+    @Column(unique = true)
     private String email;
 
     @NotBlank
@@ -35,8 +35,8 @@ public class User  {
     @NotBlank
     private String password;
 
-    @Column(name = "enabled", nullable = false)
-    private boolean enabled;
+//    @Column(name = "enabled", nullable = false)
+//    private boolean enabled;
 
     public String getEmail() {
         return email;
